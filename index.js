@@ -13,7 +13,7 @@ app.post('/message', function(req, res){
     res.set('Content-Type', 'application/json');
     switch(req.body.content){
         case '오늘의 학식': MessagesController.todaymeal(req, res); break;
-        case '종강일 계산기': break;
+        case '종강일 계산기': MessagesController.doomsday(req, res); break;
         case '자취방 매물보기': break;
         case '문화초대 이벤트': break;
         default:
