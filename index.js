@@ -1,13 +1,14 @@
 var express = require('express');
 var app = express();
 
+var keyboard = require('./controllers/keyboard.js');
+
 app.get('/', function (req, res) {
-    res.send('Hello World!');
+    keyboard();
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify(["WOW102"]));
 });
 
-var server = app.listen(3000, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-
-    console.log('앱은 http://%s:%s 에서 작동 중입니다.', host, port);
+app.listen(3000, function () {
+    console.log('앱은 3000포트에서 작동중입니다.');
 });
