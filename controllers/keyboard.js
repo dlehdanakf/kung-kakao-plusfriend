@@ -5,7 +5,10 @@ module.exports = {
         res.set('Content-Type', 'application/json');
 
         var message = new KeyboardMessage();
-        message.addButton('TEST');
+        message.addButton('오늘의 학식');
+        message.addButton('종강일 계산기');
+        message.addButton('자취방 매물보기');
+        message.addButton('문화초대 이벤트');
 
         res.send(message.getMessage());
     }
