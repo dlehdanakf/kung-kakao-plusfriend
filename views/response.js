@@ -14,12 +14,17 @@ function ResponseMessage(){
         message_button.url = u;
     }
     this.getMessage = function(){
-        var returns = {};
-        if(text) returns.text = text || '텍스트 없음';
-        if(photo.url) returns.photo = photo;
-        if(message_button) returns.message_button = message_button;
+        var message = {};
+        if(text) message.text = text || '텍스트 없음';
+        if(photo.url) message.photo = photo;
+        if(message_button.label) message.message_button = message_button;
 
-        return returns;
+        return JSON.stringify({
+	        message: message,
+	        keyboard: {
+		        type: 'text'
+	        }
+        });
     }
 }
 
