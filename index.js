@@ -16,13 +16,27 @@ app.post('/message', function(req, res){
         case '종강일 계산기': MessagesController.dooms_day(req, res); break;
         case '자취방 매물보기': break;
         case '문화초대 이벤트': MessagesController.movie_event(req, res); break;
+        case '메인으로':
+            res.send(
+                JSON.stringify(
+                    (new ResponseMessage)
+                        .setKeyboard([
+                            '오늘의 학식',
+                            '종강일 계산기',
+                            '자취방 매물보기',
+                            '문화초대 이벤트'
+                        ])
+                        .getMessage()
+                )
+            );
+            break;
         default:
             res.send(
                 JSON.stringify(
                     (new ResponseMessage)
                         .setText('잘못된 요청입니다.\n다시 입력해주세요.')
                         .setKeyboard([
-                            '돌아가기'
+                            '메인으로'
                         ])
                         .getMessage()
                 )
