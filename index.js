@@ -11,16 +11,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get('/keyboard', KeyboardController.keyboard);
 app.post('/message', function(req, res){
     res.set('Content-Type', 'application/json');
-	console.log(req.headers);
     switch(req.body.content){
         case '오늘의 학식': MessagesController.today_meal(req, res); break;
         case '종강일 계산기': MessagesController.dooms_day(req, res); break;
         case '자취방 매물보기': break;
         case '문화초대 이벤트': MessagesController.movie_event(req, res); break;
         default:
-            var m = new ResponseMessage;
-            m.setText('404 Not found')
-            res.send(m.getMessage());
+            res.send(
+                JSON.stringify(
+                    (new ResponseMessage)
+                        .setText('잘못된 요청입니다.\n다시 입력해주세요.')
+                        .setKeyboard([
+                            '돌아가기'
+                        ])
+                        .getMessage()
+                )
+            );
     }
 });
 
