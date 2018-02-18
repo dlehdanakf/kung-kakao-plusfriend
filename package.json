@@ -4,8 +4,8 @@
   "description": "KUNG KakakoTalk Plusfriend",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "test": "supervisor index.js"
   },
   "repository": {
     "type": "git",
