@@ -10,9 +10,32 @@ var ResponseMessage = require('./../views/response');
 var KonkukCafeteria = require('./../models/KonkukCafeteria');
 
 var TodayMeal = async(function(req, res){
-    console.log('AAAAA');
-    var cafeteria = KonkukCafeteria('2018-02-16');
-    console.log('BBBB');
+    var cafeteria = new KonkukCafeteria,
+        message = new ResponseMessage,
+        i = 0;
+    while(i < 2){
+        if(cafeteria.fetch_status == 401){
+            if(i < 0){
+                cafeteria.fetch_status = 500;
+            } else {
+                i++;
+                continue;
+            }
+        }
+        if(cafeteria.fetch_status == 500){
+            message.setText(
+                '학식정보를 가져오던 도중 오류가 발생했습니다.\n' +
+                '문제가 지속될 경우 관리자에게 문의바랍니다.'
+            );
+            break;
+        }
+
+        message.setText(cafeteria.getStoreMenu());
+
+        break;
+    }
+
+    res.send(message.getMessage());
 });
 function DoomsDay(req, res){
     var d = moment().diff("2018-02-18", 'days');
