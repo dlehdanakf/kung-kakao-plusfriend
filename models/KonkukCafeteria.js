@@ -104,7 +104,7 @@ function KonkukCafeteria(d){
                 return_string += '\n=> 식당에서 식단을 업로드하지 않았습니다.';
         }
         
-        return_string += '\n상기 내용은 컴퓨터에 의해 자동으로 가져온 정보로 식당 운영사정 및 기타 사유로 인해 정확하지 않을 수 있습니다.'
+        return_string += '\n\n====================\n상기 내용은 컴퓨터에 의해 자동으로 가져온 정보로 식당 운영사정 및 기타 사유로 인해 정확하지 않을 수 있습니다.'
 
         return return_string;
     }
