@@ -13,11 +13,13 @@ function KonkukCafeteria(d){
                 _this.fetch_result[v.id] = [];
                 v.menus.forEach(function(m, j){
                     var sub_menu = m.description;
-                    sub_menu.replace('.', ' ');
-                    while(sub_menu.indexOf('  ') > -1){ sub_menu.replace('  ', ' '); }
-                    sub_menu.trim();
+                    while(sub_menu.indexOf('.') != -1){ sub_menu = sub_menu.replace('.', ' '); }
+                    while(sub_menu.indexOf('  ') != -1){ sub_menu = sub_menu.replace('  ', ' '); }
+                    sub_menu = sub_menu.trim();
                     var sub_menu_arr = sub_menu.split(',');
-                    sub_menu.replace(' ', ', ');
+                    sub_menu = sub_menu.replace(' ', ', ');
+
+                    console.log(sub_menu);
 
                     var main_menu = m.name.trim();
                     if(!main_menu || main_menu == '' || main_menu == 'Cafeteria'){
@@ -97,8 +99,8 @@ function KonkukCafeteria(d){
 
             for(var m in this.fetch_result[v]){
                 console.log(this.fetch_result[v][m]);
-                return_string += '- ' + this.fetch_result[v][m].main + '\n';
-                return_string += '  ' + this.fetch_result[v][m].sub + '\n';
+                return_string += '=> ' + this.fetch_result[v][m].main + '\n';
+                return_string += '   ' + this.fetch_result[v][m].sub + '\n';
             }
         }
 
