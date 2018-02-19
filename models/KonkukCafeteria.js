@@ -93,7 +93,6 @@ function KonkukCafeteria(d){
         var return_string = getTodayFormat() + ' 학식정보';
 
         for(var v in restaurant){
-	        console.log(restaurant[v]);
             return_string += '\n\n<' + restaurant[v] + '>';
 
             for(var m in this.fetch_result[v]){
@@ -103,8 +102,6 @@ function KonkukCafeteria(d){
             }
             if(this.fetch_result[v].length < 1)
                 return_string += '\n=> 식당에서 식단을 업로드하지 않았습니다.';
-            
-            return_string += '\n\n====================';
         }
         
         return_string += '\n상기 내용은 컴퓨터에 의해 자동으로 가져온 정보로 식당 운영사정 및 기타 사유로 인해 정확하지 않을 수 있습니다.'
@@ -112,7 +109,7 @@ function KonkukCafeteria(d){
         return return_string;
     }
 
-    async(constructor());
+	    async(constructor());
 };
 
 module.exports = KonkukCafeteria;
