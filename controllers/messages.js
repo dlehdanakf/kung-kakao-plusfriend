@@ -1,13 +1,19 @@
 var async = require('es5-async-await/async');
 var await = require('es5-async-await/await');
+var FormData = require('form-data');
 var Parser = require('rss-parser');
+var fetch = require('node-fetch');
 var decode = require('unescape');
 var moment = require('moment');
 var ResponseMessage = require('./../views/response');
 
-function TodayMeal(req, res){
-    res.send('ASDFASDF');
-}
+var KonkukCafeteria = require('./../models/KonkukCafeteria');
+
+var TodayMeal = async(function(req, res){
+    console.log('AAAAA');
+    var cafeteria = KonkukCafeteria('2018-02-16');
+    console.log('BBBB');
+});
 function DoomsDay(req, res){
     var d = moment().diff("2018-02-18", 'days');
     res.send(d.toString());
