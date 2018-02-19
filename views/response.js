@@ -39,11 +39,14 @@ function ResponseMessage(){
         if(text) message.text = text || '텍스트 없음';
         if(photo.url) message.photo = photo;
         if(message_button.label) message.message_button = message_button;
+        
+        var returns = {};
+        if(message != {})
+        	returns.message = message;
+        if(keyboard != {})
+        	returns.keyboard = keyboard;
 
-        return JSON.stringify({
-	        message: message,
-	        keyboard: keyboard
-        });
+        return JSON.stringify(returns);
     }
 }
 
