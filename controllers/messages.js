@@ -1,11 +1,14 @@
 var async = require('es5-async-await/async');
 var await = require('es5-async-await/await');
 var FormData = require('form-data');
+var sizeOf = require('image-size');
 var Parser = require('rss-parser');
 var fetch = require('node-fetch');
 var cheerio = require('cheerio');
 var decode = require('unescape');
 var moment = require('moment');
+var http = require('http');
+var url = require('url');
 var ResponseMessage = require('./../views/response');
 
 var KonkukCafeteria = require('./../models/KonkukCafeteria');
@@ -71,11 +74,21 @@ var MovieEvent = async(function(req, res){
     message_text += '\n\n보다 자세한 내용은 KUNG 홈페이지에서 확인하시기 바랍니다.'
 
     var message = new ResponseMessage;
-    message.setText(message_text);
-    message.setPhoto(event_item.image, 512, 512);
-    message.setMessageButton('이벤트 보러가기', event_item.link);
 
-    res.send(message.getMessage());
+    http.get(url.parse(event_item.image), function(response){
+        var chunks = [];
+        response.on('data', function (chunk) {
+            chunks.push(chunk);
+        }).on('end', function() {
+            var buffer = sizeOf(Buffer.concat(chunks));
+
+            message.setText(message_text);
+            message.setPhoto(event_item.image, buffer.width, buffer.height);
+            message.setMessageButton('이벤트 보러가기', event_item.link);
+
+            res.send(message.getMessage());
+        });
+    });
 });
 
 module.exports = {
