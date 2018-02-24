@@ -13,6 +13,27 @@ var ResponseMessage = require('./../views/response');
 
 var KonkukCafeteria = require('./../models/KonkukCafeteria');
 
+function DoomsDay(req, res){
+    var d = parseInt(moment().diff("2018-02-18", 'days').toString()),
+        str = '종강일(2018년 09월 01일)',
+        message = new ResponseMessage;
+
+    if(d > 0) str += ' 까지\n' + d + '일 남았습니다...ㅠㅠ';
+    if(d == 0) str += '\n바로 오늘입니다아ㅏㅏㅏㅏㅏㅏ';
+    if(d < 0) str += ' 에서\n' + d + '일 지났습니다.';
+
+    message.setText(str);
+
+    res.send(message.getMessage());
+}
+function RealEstate(req, res){
+    var message = new ResponseMessage;
+    message.setText('[학교주변 원룸 알아보기]\n건국대학교 커뮤니티 KUNG과 제휴한 부동산 매물이 올라오는 게시판입니다.');
+    message.setMessageButton('게시판 바로가기', 'http://kung.kr/real_estate');
+    message.setPhoto('http://kung.kr/files/attach/images/1244024/937/469/005/a7458affca594f03c0ad68caef355936.png', 1024, 768);
+
+    res.send(message.getMessage());
+}
 var TodayMeal = async(function(req, res){
     var cafeteria = new KonkukCafeteria,
         message = new ResponseMessage,
@@ -41,19 +62,6 @@ var TodayMeal = async(function(req, res){
 
     res.send(message.getMessage());
 });
-function DoomsDay(req, res){
-    var d = parseInt(moment().diff("2018-02-18", 'days').toString()),
-    	str = '종강일(2018년 09월 01일)',
-        message = new ResponseMessage;
-    
-    if(d > 0) str += ' 까지\n' + d + '일 남았습니다...ㅠㅠ';
-    if(d == 0) str += '\n바로 오늘입니다아ㅏㅏㅏㅏㅏㅏ';
-    if(d < 0) str += ' 에서\n' + d + '일 지났습니다.';
-    
-    message.setText(str);
-    
-    res.send(message.getMessage());
-}
 var MovieEvent = async(function(req, res){
     var req_index = 0;
     var feed = await((new Parser).parseURL('http://kung.kr/event/rss'));
@@ -73,14 +81,13 @@ var MovieEvent = async(function(req, res){
     message_text += event_item.title;
     message_text += '\n\n보다 자세한 내용은 KUNG 홈페이지에서 확인하시기 바랍니다.'
 
-    var message = new ResponseMessage;
-
     http.get(url.parse(event_item.image), function(response){
         var chunks = [];
-        response.on('data', function (chunk) {
+        response.on('data', function(chunk){
             chunks.push(chunk);
-        }).on('end', function() {
-            var buffer = sizeOf(Buffer.concat(chunks));
+        }).on('end', function(){
+            var buffer = sizeOf(Buffer.concat(chunks)),
+                message = new ResponseMessage;
 
             message.setText(message_text);
             message.setPhoto(event_item.image, buffer.width, buffer.height);
@@ -93,6 +100,7 @@ var MovieEvent = async(function(req, res){
 
 module.exports = {
     today_meal: TodayMeal,
+    movie_event: MovieEvent,
     dooms_day: DoomsDay,
-    movie_event: MovieEvent
+    real_estate: RealEstate
 };

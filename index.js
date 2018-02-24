@@ -16,7 +16,7 @@ app.post('/message', function(req, res){
     switch(req.body.content){
         case '오늘의 학식': MessagesController.today_meal(req, res); break;
         case '종강일 계산기': MessagesController.dooms_day(req, res); break;
-        case '자취방 매물보기': break;
+        case '자취방 매물보기': MessagesController.real_estate(req, res); break;
         case '문화초대 이벤트': MessagesController.movie_event(req, res); break;
         case '메인으로':
             res.send(
