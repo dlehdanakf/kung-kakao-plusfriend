@@ -3,6 +3,7 @@ var await = require('es5-async-await/await');
 var FormData = require('form-data');
 var Parser = require('rss-parser');
 var fetch = require('node-fetch');
+var cheerio = require('cheerio');
 var decode = require('unescape');
 var moment = require('moment');
 var ResponseMessage = require('./../views/response');
@@ -51,17 +52,28 @@ function DoomsDay(req, res){
     res.send(message.getMessage());
 }
 var MovieEvent = async(function(req, res){
+    var req_index = 0;
     var feed = await((new Parser).parseURL('http://kung.kr/event/rss'));
-    var message_text = 'KUNG에서 매 달 업데이트되는 건대생을 위한 문화초대 이벤트!\n\n';
+    var message_text = 'KUNG에서 매 월 업데이트되는 건대생을 위한 문화초대 이벤트!\n\n';
+    var event_item = {};
     feed.items.forEach(function(item, index){
-        message_text += '- ' + decode(item.title) + '\n';
+        if(req_index !== index) return;
+
+        event_item.title = decode(item.title);
+        event_item.link = item.link;
+        event_item.description = decode(item.content);
+
+        var $ = cheerio.load(event_item.description);
+        event_item.image = $('img').attr('src')
     });
 
-    message_text += '\n더 자세한 사항은 KUNG 홈페이지에서!';
+    message_text += event_item.title;
+    message_text += '\n\n보다 자세한 내용은 KUNG 홈페이지에서 확인하시기 바랍니다.'
 
     var message = new ResponseMessage;
     message.setText(message_text);
-    message.setMessageButton('이벤트 보러가기', 'http://kung.kr/event');
+    message.setPhoto(event_item.image, 512, 512);
+    message.setMessageButton('이벤트 보러가기', event_item.link);
 
     res.send(message.getMessage());
 });

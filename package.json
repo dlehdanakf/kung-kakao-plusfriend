@@ -22,6 +22,7 @@
   "homepage": "https://github.com/dlehdanakf/kung-kakao-plusfriend#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
     "dotenv": "^5.0.0",
     "es5-async-await": "^1.0.0",
     "eslint": "^4.18.0",
