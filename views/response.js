@@ -3,7 +3,10 @@ function ResponseMessage(){
     var photo = {};
     var message_button = {};
     var keyboard = {
-        type: 'text'
+        type: 'buttons',
+        buttons: [
+	        '메인으로'
+        ]
     };
 
     this.setText = function(t){ text = t; return this; }
@@ -43,8 +46,8 @@ function ResponseMessage(){
         var returns = {};
         if(message != {})
         	returns.message = message;
-        if(keyboard != {})
-        	returns.keyboard = keyboard;
+        	
+    	returns.keyboard = keyboard;
 
         return JSON.stringify(returns);
     }

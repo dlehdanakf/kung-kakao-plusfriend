@@ -38,8 +38,17 @@ var TodayMeal = async(function(req, res){
     res.send(message.getMessage());
 });
 function DoomsDay(req, res){
-    var d = moment().diff("2018-02-18", 'days');
-    res.send(d.toString());
+    var d = parseInt(moment().diff("2018-02-18", 'days').toString()),
+    	str = '종강일(2018년 09월 01일)',
+        message = new ResponseMessage;
+    
+    if(d > 0) str += ' 까지\n' + d + '일 남았습니다...ㅠㅠ';
+    if(d == 0) str += '\n바로 오늘입니다아ㅏㅏㅏㅏㅏㅏ';
+    if(d < 0) str += ' 에서\n' + d + '일 지났습니다.';
+    
+    message.setText(str);
+    
+    res.send(message.getMessage());
 }
 var MovieEvent = async(function(req, res){
     var feed = await((new Parser).parseURL('http://kung.kr/event/rss'));
